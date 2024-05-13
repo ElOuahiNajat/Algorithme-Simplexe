@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simplex Solver</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        .navbar {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar-logo img {
+            height: 30px;
+        }
+
+        .navbar-links ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar-links ul li {
+            display: inline;
+            margin-left: 20px;
+        }
+
+        .navbar-links ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .logo-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .logo-container img {
+            max-width: 100%;
+            max-height: 50px;
+            height: auto;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            color: #007bff;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="number"] {
+            width: 60px;
+            padding: 5px;
+            margin-right: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .output {
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="navbar">
+        <div class="navbar-logo">
+            <img src="logo.png" alt="Logo">
+        </div>
+        <div class="navbar-links">
+            <ul>
+                <li><a href="aboutUs.html">About Us</a></li>
+                <li><a href="login3.html">Logout</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="logo-container">
+        <img src="logoemsi.png" alt="Logo">
+    </div>
+
+    <div class="container">
+        <h1>Simplex Solver</h1>
+        <form id="inputForm">
+            <label for="constraints">Nombre de contraintes :</label>
+            <input type="number" id="constraints" min="1" required>
+            <label for="variables">Nombre de variables :</label>
+            <input type="number" id="variables" min="1" required>
+            <button type="button" onclick="createInputFields()">Entrer les coefficients</button>
+        </form>
+
+        <div id="inputs"></div>
+
+        <button onclick="solveSimplex()">Résoudre</button>
+
+        <div id="output" class="output"></div>
+    </div>
+
+    <script>
+        function createInputFields() {
+            const constraints = parseInt(document.getElementById('constraints').value);
+            const variables = parseInt(document.getElementById('variables').value);
+            const inputsDiv = document.getElementById('inputs');
+            inputsDiv.innerHTML = '';
+
+            const objectiveFunction = document.createElement('div');
+            objectiveFunction.innerHTML = '<h3>Coefficients de la fonction objectif :</h3>';
+            for (let i = 1; i <= variables; i++) {
+                objectiveFunction.innerHTML += `<label for="objVar${i}">x${i} : </label><input type="number" id="objVar${i}" required>`;
+            }
+            inputsDiv.appendChild(objectiveFunction);
+
+            const constraintsDiv = document.createElement('div');
+            constraintsDiv.innerHTML = '<h3>Coefficients des contraintes :</h3>';
+            for (let i = 1; i <= constraints; i++) {
+                constraintsDiv.innerHTML += `<h4>Contrainte ${i} :</h4>`;
+                for (let j = 1; j <= variables; j++) {
+                    constraintsDiv.innerHTML += `<label for="constraint${i}Var${j}">x${j} : </label><input type="number" id="constraint${i}Var${j}" required>`;
+                }
+                constraintsDiv.innerHTML += `<label for="constraint${i}Constant">Constante : </label><input type="number" id="constraint${i}Constant" required><br>`;
+            }
+            inputsDiv.appendChild(constraintsDiv);
+        }
+
+        function solveSimplex() {
+            const constraints = parseInt(document.getElementById('constraints').value);
+            const variables = parseInt(document.getElementById('variables').value);
+
+            const tableau = new Array(constraints + 1).fill().map(() => new Array(variables + constraints + 2).fill(0));
+            for (let j = 1; j <= variables; j++) {
+                tableau[0][j] = -parseFloat(document.getElementById(`objVar${j}`).value);
+            }
+            for (let i = 1; i <= constraints; i++) {
+                for (let j = 1; j <= variables; j++) {
+                    tableau[i][j] = parseFloat(document.getElementById(`constraint${i}Var${j}`).value);
+                }
+                tableau[i][variables + i] = 1;
+                tableau[i][variables + constraints + 1] = parseFloat(document.getElementById(`constraint${i}Constant`).value);
+            }
+
+            let iteration = 1;
+            let output = "";
+            while (true) {
+                output += `<h3>Tableau ${iteration} :</h3><table>`;
+                for (let i = 0; i <= constraints; i++) {
+                    output += "<tr>";
+                    for (let j = 0; j <= variables + constraints + 1; j++) {
+                        output += `<td>${tableau[i][j]}</td>`;
+                    }
+                    output += "</tr>";
+                }
+                output += "</table>";
+
+                let pivotCol = 0;
+                for (let j = 1; j <= variables + constraints; j++) {
+                    if (tableau[0][j] < tableau[0][pivotCol]) {
+                        pivotCol = j;
+                    }
+                }
+
+                if (tableau[0][pivotCol] >= 0) {
+                    break;
+                }
+
+                let pivotRow = -1;
+                let minRatio = -1;
+                for (let i = 1; i <= constraints; i++) {
+                    if (tableau[i][pivotCol] > 0) {
+                        const ratio = tableau[i][variables + constraints + 1] / tableau[i][pivotCol];
+                        if (pivotRow === -1 || ratio < minRatio) {
+                            pivotRow = i;
+                            minRatio = ratio;
+                        }
+                    }
+                }
+
+                if (pivotRow === -1) {
+                    document.getElementById('output').innerHTML = output + "Solution non bornée";
+                    return;
+                }
+
+                for (let i = 0; i <= constraints; i++) {
+                    if (i !== pivotRow) {
+                        const pivotValue = tableau[i][pivotCol];
+                        for (let j = 0; j <= variables + constraints + 1; j++) {
+                            tableau[i][j] -= tableau[pivotRow][j] * pivotValue / tableau[pivotRow][pivotCol];
+                        }
+                    }
+                }
+
+                const pivotValue = tableau[pivotRow][pivotCol];
+                for (let j = 0; j <= variables + constraints + 1; j++) {
+                    tableau[pivotRow][j] /= pivotValue;
+                }
+
+                iteration++;
+            }
+
+            output += "<h3>Tableau Final :</h3><table>";
+            for (let i = 0; i <= constraints; i++) {
+                output += "<tr>";
+                for (let j = 0; j <= variables + constraints + 1; j++) {
+                    output += `<td>${tableau[i][j]}</td>`;
+                }
+                output += "</tr>";
+            }
+            output += "</table>";
+
+            output += "<h3>Solution :</h3>";
+            for (let j = 1; j <= variables; j++) {
+                let isBasic = false;
+                let basicRow = -1;
+                for (let i = 1; i <= constraints; i++) {
+                    if (tableau[i][j] === 1 && !isBasic) {
+                        isBasic = true;
+                        basicRow = i;
+                    } else if (tableau[i][j] !== 0) {
+                        isBasic = false;
+                        break;
+                    }
+                }
+                if (isBasic) {
+                    output += `x${j} = ${tableau[basicRow][variables + constraints + 1]}<br>`;
+                } else {
+                    output += `x${j} = 0 (non basique)<br>`;
+                }
+            }
+
+            document.getElementById('output').innerHTML = output;
+        }
+    </script>
+</body>
+
+</html>
