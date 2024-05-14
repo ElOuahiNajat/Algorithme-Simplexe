@@ -1,202 +1,147 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us page</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" />
+    <title>Full Website</title>
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+    <!-- Ajout de Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
-
+        *{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
         body {
-            background-color: #f0f7ff; /* Light blue background */
-            font-family: 'Poppins', sans-serif;
-            color: #333; /* Dark text color */
-            margin: 0;
-            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
         }
-
         .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: #007bff;
-            padding: 15px 50px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            background-color: blue; /* Nouvelle couleur de fond */
+            padding: 15px 0;
+            margin-bottom: 20px; /* Ajout d'un espace en bas de la barre de navigation */
         }
-
-        .navbar-logo {
-            color: #fff;
-            font-size: 24px;
-            text-decoration: none;
+        .navbar ul {
+            list-style-type: none;
+            text-align: center;
         }
-
-        .navbar-menu {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            align-items: center;
-        }
-
-        .navbar-menu li {
+        .navbar ul li {
+            display: inline;
             margin-right: 20px;
         }
-
-        .navbar-menu li a {
+        .navbar ul li a {
             color: #fff;
             text-decoration: none;
             font-size: 18px;
+            transition: color 0.3s ease;
         }
-
-        #about-section {
+        .navbar ul li a:hover {
+            color: #f39c12;
+        }
+        .about_section{
             width: 100%;
             height: auto;
+            background-color: gray;
             display: flex;
+            align-items: center;
             justify-content: space-between;
-            align-items: center;
-            padding: 80px 12%;
+            padding: 50px 10%;
+            font-family: 'Poppins', sans-serif;
         }
-
-        .about-left img {
-            width: 420px;
-            height: auto;
-            transform: translateY(50px);
-        }
-
-        .about-right {
-            width: 54%;
-            background-color: #fff; /* White background */
-            padding: 30px;
+        .about_img img{
+            width: 100%;
+            max-width: 400px;
             border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            box-shadow: 0px 0px 20px rgba(0,0,0,0.1);
         }
-
-        .about-right ul li {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
+        .about_details {
+            max-width: 500px;
+            margin-left: 50px;
         }
-
-        .about-right h1 {
-            color: #007bff; /* Blue heading color */
-            font-size: 37px;
-            margin-bottom: 10px;
-        }
-
-        .about-right p {
-            line-height: 26px;
-            font-size: 15px;
+        .about_details h1{
+            font-size: 48px;
+            color: black;
+            position: relative;
             margin-bottom: 20px;
         }
-
-        .address .address-logo {
-            margin-right: 15px;
-            color: #007bff; /* Blue icon color */
+        .about_details h1::after{
+            content: " ";
+            position: absolute;
+            width: 120px;
+            height: 4px;
+            background-color: blue;
+            border-radius: 5px;
+            left: 0;
+            bottom: -10px;
         }
-
-        .address .saprater {
+        .about_details p{
+            font-size: 16px;
+            color: #fff;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        .btns {
+            display: flex;
+        }
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            text-decoration: none;
+            margin-right: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .btn:hover{
+            background-color: #f39c12;
+        }
+        /* Style pour les logos des réseaux sociaux */
+        .social-icons {
+            margin-top: 50px;
+            text-align: center;
+        }
+        .social-icons a {
             margin: 0 10px;
+            color: blue;
+            font-size: 24px;
         }
-
-        .expertise h3 {
-            margin-bottom: 15px;
-            color: #007bff; /* Blue heading color */
-        }
-
-        .expertise .expertise-logo {
-            font-size: 19px;
-            margin-right: 10px;
-            color: #007bff; /* Blue icon color */
+        .social-icons a:hover {
+            color: #f39c12;
         }
     </style>
 </head>
-
 <body>
-    <nav class="navbar">
-        <a href="#" class="navbar-logo">Logo</a>
-        <ul class="navbar-menu">
-            <li><a href="main.html">Main</a></li>
-            <li><a href="logout.html">Logout</a></li>
+    <div class="navbar">
+        <ul>
+            <li><a href="intro1.html">Introduction</a></li>
+            <li><a href="main.html">Page simplexe</a></li>
+            <li><a href="login3.html">login</a></li>
+            <li><a href="aboutUs.html">About us</a></li>
         </ul>
-    </nav>
-
-    <section id="about-section">
-        
-        <!-- about left  -->
-        <div class="about-left">
-            <img src="2.png" alt="About Img" />
+    </div>
+    
+    <section class="about_section" id="About">
+        <div class="about_img">
+            <img src="2.png" alt="">
         </div>
-
-        <!-- about right  -->
-        <div class="about-right">
-            <h4>Our Story</h4>
-            <h1>About Us</h1>
-            <p>we are passionate individuals driven by a shared love for technology. Our journey in IT isn't just about mastering coding languages or understanding complex algorithms; it's about embracing innovation, fostering creativity, and building a community of like-minded individuals who are dedicated to pushing the boundaries of what's possible in the world of technology.
-
-                With a diverse range of backgrounds and experiences, we come together to learn, grow, and inspire one another. Whether it's through hackathons, coding challenges, or collaborative projects, we thrive on the opportunity to apply our skills to real-world problems and make a meaningful impact.
-            </p>
-            <div class="address">
-                <ul>
-                    <li>
-                        <span class="address-logo">
-                            <i class="fas fa-paper-plane"></i>
-                        </span>
-                        <p>Address</p>
-                        <span class="saprater">:</span>
-                        <p>Marrakech, Morocco</p>
-                    </li>
-                    <li>
-                        <span class="address-logo">
-                            <i class="fas fa-phone-alt"></i>
-                        </span>
-                        <p>Phone No</p>
-                        <span class="saprater">:</span>
-                        <p>+91 987-654-4321</p>
-                    </li>
-                    <li>
-                        <span class="address-logo">
-                            <i class="far fa-envelope"></i>
-                        </span>
-                        <p>Email ID</p>
-                        <span class="saprater">:</span>
-                        <p>crowncoder@gmail.com</p>
-                    </li>
-                </ul>
-            </div>
-            <div class="expertise">
-                <h3>My Expertise</h3>
-                <ul>
-                    <li>
-                        <span class="expertise-logo">
-                            <i class="fab fa-html5"></i>
-                        </span>
-                        <p>HTML</p>
-                    </li>
-                    <li>
-                        <span class="expertise-logo">
-                            <i class="fab fa-css3-alt"></i>
-                        </span>
-                        <p>CSS</p>
-                    </li>
-                    <li>
-                        <span class="expertise-logo">
-                            <i class="fab fa-node-js"></i>
-                        </span>
-                        <p>Java Script</p>
-                    </li>
-                    <li>
-                        <span class="expertise-logo">
-                            <i class="fab fa-react"></i>
-                        </span>
-                        <p>React Js</p>
-                    </li>
-                </ul>
-            </div>
+        <div class="about_details">
+            <h1>About Me</h1>
+            <p>En tant qu'étudiante en troisième année d'informatique, je suis passionnée par les défis intellectuels que ce domaine offre. Ma fascination pour la technologie et son potentiel à transformer notre monde m'a motivée à poursuivre des études approfondies dans ce domaine en constante évolution. Au cours de mes études, j'ai développé une solide compréhension des principes fondamentaux de l'informatique, ainsi que des compétences pratiques dans la programmation, la conception de systèmes et la résolution de problèmes complexes.</p>
+            
         </div>
     </section>
+    
+    <!-- Ajout des logos des réseaux sociaux -->
+    <div class="social-icons">
+        <a href="#"><i class="fab fa-facebook"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-linkedin"></i></a>
+        <!-- Ajoutez d'autres icônes de réseaux sociaux selon vos besoins -->
+    </div>
 </body>
-
 </html>
